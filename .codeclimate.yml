@@ -5,7 +5,12 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    config:
+      languages:
+      - python
+  fixme:
+    enabled: true
 
 ratings:
-   paths:
-   - "**.py"
+  paths:
+  - "**.py"
