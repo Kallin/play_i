@@ -1,5 +1,4 @@
 class BaseGame:
-
     def __init__(self):
         self.set_defaults()
         self._players = []
@@ -33,8 +32,3 @@ class BaseGame:
 
     def add_player(self, player):
         self._players.append(player)
-
-
-
-
-

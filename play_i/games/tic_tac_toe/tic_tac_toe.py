@@ -70,14 +70,17 @@ class TicTacToe(BaseGame):
         return options
 
     def print_grid(self):
+        print('\n')
         print('\n'.join(''.join(row) for row in self.play_area))
-
 
     def apply_choice(self, choice):
         if self.x_is_active():
-            self.play_area[choice[0]][choice[1]] = self.X_CELL
+            self.place_marker(choice, self.X_CELL)
         else:
-            self.play_area[choice[0]][choice[1]] = self.O_CELL
+            self.place_marker(choice, self.O_CELL)
 
     def x_is_active(self):
         return self.__active_player == self.__player_x
+
+    def place_marker(self, choice, marker):
+        self.play_area[choice[0]][choice[1]] = marker
