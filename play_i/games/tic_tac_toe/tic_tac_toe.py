@@ -52,16 +52,12 @@ class TicTacToe(BaseGame):
 
             self.swap_players()
 
+        self.end_game()
         self.render_game_over()
 
     def render_game_over(self):
-        if self.__winner is not None:
-            if self.__winner == self.__player_x:
-                print('player X wins')
-            else:
-                print('player O wins')
-        else:
-            print('draw')
+        # todo: externalize renderer
+        print(self.end_state)
 
         print('\n')
         self.render_game()
@@ -112,8 +108,32 @@ class TicTacToe(BaseGame):
         self.play_area[choice[0]][choice[1]] = marker
 
     def check_game_over(self):
-        lines = []
+        self.check_victory()
+        self.check_draw()
 
+    def check_draw(self):
+        all_spaces_used = True
+        for row in self.play_area:
+            for cell in row:
+                if cell == self.EMPTY_CELL:
+                    all_spaces_used = False
+                    break
+        if all_spaces_used:
+            self.__draw = True
+
+    def check_victory(self):
+        lines = self.collect_lines()
+
+        for line in lines:
+            if all(cell == self.X_CELL for cell in line):
+                self.__winner = self.__player_x
+                break
+            elif all(cell == self.O_CELL for cell in line):
+                self.__winner = self.__player_o
+                break
+
+    def collect_lines(self):
+        lines = []
         # rows
         for row in self.play_area:
             lines.append(row)
@@ -127,30 +147,22 @@ class TicTacToe(BaseGame):
         for i in range(3):
             diag_1.append(self.play_area[i][i])
         lines.append(diag_1)
-
         # top-right to bottom-left
         diag_2 = []
         for i in range(3):
             diag_2.append(self.play_area[i][2 - i])
         lines.append(diag_2)
 
-        for line in lines:
-            if all(cell == self.X_CELL for cell in line):
-                self.__winner = self.__player_x
-                break
-            elif all(cell == self.O_CELL for cell in line):
-                self.__winner = self.__player_o
-                break
-
-        all_spaces_used = True
-        for row in self.play_area:
-            for cell in row:
-                if cell == self.EMPTY_CELL:
-                    all_spaces_used = False
-                    break
-
-        if all_spaces_used:
-            self.__draw = True
+        return lines
 
     def game_over(self):
         return (self.__winner is not None) or self.__draw
+
+    def end_game(self):
+        if self.__winner is not None:
+            if self.__winner == self.__player_x:
+                self.end_state = 'player X wins'
+            else:
+                self.end_state = 'player O wins'
+        else:
+            self.end_state = 'draw'
