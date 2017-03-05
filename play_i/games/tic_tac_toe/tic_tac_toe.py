@@ -125,35 +125,45 @@ class TicTacToe(BaseGame):
         lines = self.collect_lines()
 
         for line in lines:
-            if all(cell == self.X_CELL for cell in line):
+            if self.complete_line(line, self.X_CELL):
                 self.__winner = self.__player_x
                 break
-            elif all(cell == self.O_CELL for cell in line):
+            elif self.complete_line(line, self.O_CELL):
                 self.__winner = self.__player_o
                 break
 
+    def complete_line(self, line, marker):
+        return all(cell == marker for cell in line)
+
     def collect_lines(self):
         lines = []
-        # rows
-        for row in self.play_area:
-            lines.append(row)
 
-        # columns
-        for i in range(3):
-            lines.append([row[i] for row in self.play_area])
+        self.add_rows(lines)
+        self.add_columns(lines)
+        self.add_diag_1(lines)
+        self.add_diag_2(lines)
 
-        # top-left to bottom-right
-        diag_1 = []
-        for i in range(3):
-            diag_1.append(self.play_area[i][i])
-        lines.append(diag_1)
-        # top-right to bottom-left
+        return lines
+
+    def add_diag_2(self, lines):
         diag_2 = []
         for i in range(3):
             diag_2.append(self.play_area[i][2 - i])
         lines.append(diag_2)
 
-        return lines
+    def add_diag_1(self, lines):
+        diag_1 = []
+        for i in range(3):
+            diag_1.append(self.play_area[i][i])
+        lines.append(diag_1)
+
+    def add_columns(self, lines):
+        for i in range(3):
+            lines.append([row[i] for row in self.play_area])
+
+    def add_rows(self, lines):
+        for row in self.play_area:
+            lines.append(row)
 
     def game_over(self):
         return (self.__winner is not None) or self.__draw

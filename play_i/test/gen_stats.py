@@ -15,7 +15,4 @@ for _ in range(10000):
 
     results.append(end_state)
 
-
 print(Counter(results))
-
-
