@@ -10,12 +10,6 @@ class TicTacToe(BaseGame):
 
     def __init__(self):
         super().__init__()
-        self.__player_count = None
-        self.__active_player = None
-        self.__player_x = None
-        self.__player_o = None
-        self.__winner = None
-        self.__draw = None
 
     def set_defaults(self):
         self.player_count = 2
@@ -30,6 +24,13 @@ class TicTacToe(BaseGame):
         return 'Tic Tac Toe'
 
     def setup(self):
+        self.__player_count = None
+        self.__active_player = None
+        self.__player_x = None
+        self.__player_o = None
+        self.__winner = None
+        self.__draw = None
+
         self.__assign_players()
         self.__create_play_area()
         self.__active_player = self.__player_x
