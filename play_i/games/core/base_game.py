@@ -1,5 +1,6 @@
 class BaseGame:
     def __init__(self):
+        self._player_count = 0
         self.set_defaults()
         self._players = []
 
@@ -18,6 +19,9 @@ class BaseGame:
     def begin(self):
         raise Exception('implement me')
 
+    def copy(self):
+        raise Exception('implement me')
+
     # def play(self):
     #     counts = self.supported_player_counts()
     #     selected_count = input("How many players, between {} and {}?\n".format(counts[0], counts[1]))
@@ -31,4 +35,6 @@ class BaseGame:
         pass
 
     def add_player(self, player):
+        self._player_count += 1
+        player.number = self._player_count
         self._players.append(player)

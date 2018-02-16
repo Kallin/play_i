@@ -34,6 +34,7 @@ class TicTacToe(BaseGame):
         self.__assign_players()
         self.__create_play_area()
         self.__active_player = self.__player_x
+        self.__lines = self.build_lines()
 
     def __assign_players(self):
         self.__player_x = self._players[0]
@@ -73,7 +74,7 @@ class TicTacToe(BaseGame):
             self.__active_player = self.__player_x
 
     def player_turn(self):
-        choice = self.__active_player.make_choice(self.options())
+        choice = self.__active_player.make_choice(self.options(), game=self)
         self.apply_choice(choice)
 
     def render_game(self):
@@ -105,12 +106,16 @@ class TicTacToe(BaseGame):
     def x_is_active(self):
         return self.__active_player == self.__player_x
 
+    def o_is_active(self):
+        return self.__active_player == self.__player_o
+
     def place_marker(self, choice, marker):
         self.play_area[choice[0]][choice[1]] = marker
 
     def check_game_over(self):
         self.check_victory()
-        self.check_draw()
+        if self.__winner is None:
+            self.check_draw()
 
     def check_draw(self):
         all_spaces_used = True
@@ -122,21 +127,29 @@ class TicTacToe(BaseGame):
         if all_spaces_used:
             self.__draw = True
 
-    def check_victory(self):
-        lines = self.collect_lines()
+    def x_victory(self, line):
+        return self.x_is_active() and self.complete_line(line, self.X_CELL)
 
-        for line in lines:
-            if self.complete_line(line, self.X_CELL):
+    def o_victory(self, line):
+        return self.o_is_active() and self.complete_line(line, self.O_CELL)
+
+    def check_victory(self):
+        for line in self.__lines:
+            if self.x_victory(line):
                 self.__winner = self.__player_x
                 break
-            elif self.complete_line(line, self.O_CELL):
+            elif self.o_victory(line):
                 self.__winner = self.__player_o
                 break
 
     def complete_line(self, line, marker):
-        return all(cell == marker for cell in line)
+        for index in line:
+            if self.play_area[index[0]][index[1]] != marker:
+                return False
 
-    def collect_lines(self):
+        return True
+
+    def build_lines(self):
         lines = []
 
         self.add_rows(lines)
@@ -147,24 +160,38 @@ class TicTacToe(BaseGame):
         return lines
 
     def add_diag_2(self, lines):
-        diag_2 = []
-        for i in range(3):
-            diag_2.append(self.play_area[i][2 - i])
-        lines.append(diag_2)
+        line = []
+        for i, row in enumerate(self.play_area):
+            line.append([i, len(row) - i - 1])
+
+        lines.append(line)
 
     def add_diag_1(self, lines):
-        diag_1 = []
-        for i in range(3):
-            diag_1.append(self.play_area[i][i])
-        lines.append(diag_1)
+        line = []
+        for i, row in enumerate(self.play_area):
+            line.append([i, i])
+
+        lines.append(line)
+
+    def add_straight_lines(self, lines, line_indexer):
+        for i, row in enumerate(self.play_area):
+            line = []
+            for j, column in enumerate(row):
+                line_indexer(line, i, j)
+
+            lines.append(line)
+
+    def column_indexer(self, line, i, j):
+        line.append([j, i])
 
     def add_columns(self, lines):
-        for i in range(3):
-            lines.append([row[i] for row in self.play_area])
+        self.add_straight_lines(lines, self.column_indexer)
+
+    def row_indexer(self, line, i, j):
+        line.append([i, j])
 
     def add_rows(self, lines):
-        for row in self.play_area:
-            lines.append(row)
+        self.add_straight_lines(lines, self.row_indexer)
 
     def game_over(self):
         return (self.__winner is not None) or self.__draw
@@ -177,3 +204,38 @@ class TicTacToe(BaseGame):
                 self.end_state = 'player O wins'
         else:
             self.end_state = 'draw'
+
+    def draw(self):
+        return self.__draw
+
+    def copy(self):
+
+        copy = TicTacToe()
+        copy.__player_count = self.__player_count
+        copy.__active_player = self.__active_player
+        copy.__player_x = self.__player_x
+        copy.__player_o = self.__player_o
+        copy.__winner = self.__winner
+        copy.__draw = self.__draw
+        copy._players = self._players
+        copy.__lines = self.__lines
+
+        # can share state of everything except play area
+        copy.play_area = [row[:] for row in self.play_area]
+
+        return copy
+
+    def winner(self):
+        return self.__winner
+
+    def active_player(self):
+        return self.__active_player
+
+    def set_active_player(self, player):
+        self.__active_player = player
+
+    def player_o(self):
+        return self.__player_o
+
+    def get_play_area(self):
+        return self.play_area
