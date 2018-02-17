@@ -31,7 +31,7 @@ class MinMaxPlayer(Player):
         # not at a terminal state, need to branch out to all sub-moves
         copy.swap_players()
         scores = self.choice_scores(copy.options(), copy)
-        if copy.active_player().number == self.number:
+        if copy._active_player.number == self.number:
             # the next turn is ours, so we would choose the best
             option_scores.append(max(scores))
         else:
@@ -39,10 +39,10 @@ class MinMaxPlayer(Player):
             option_scores.append(min(scores))
 
     def score_end_of_game(self, copy, option_scores):
-        if copy.draw():
+        if copy._draw:
             option_scores.append(0)
         else:
-            if copy.active_player().number == self.number:
+            if copy._active_player.number == self.number:
                 option_scores.append(1)
             else:
                 option_scores.append(-1)
