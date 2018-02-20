@@ -49,7 +49,7 @@ jobs:
             ./cc-test-reporter before-build
             . venv/bin/activate
             pip install -r requirements.txt
-            coverage run --source=play_i -m unittest discover
+            coverage run -m unittest discover
             coverage xml
             ./cc-test-reporter after-build -t coverage.py
 
