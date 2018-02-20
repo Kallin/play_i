@@ -1,0 +1,3 @@
+[run]
+source=play_i
+omit=*/__init__.py
