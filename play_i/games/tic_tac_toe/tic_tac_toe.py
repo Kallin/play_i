@@ -12,7 +12,7 @@ class TicTacToe(BaseGame):
         self.__renderer = Renderer()
         self.__player_count = None
         self._active_player = None
-        self.__player_x = None
+        self._player_x = None
         self._player_o = None
         self.__winner = None
         self._draw = None
@@ -34,11 +34,11 @@ class TicTacToe(BaseGame):
     def setup(self):
         self.__assign_players()
         self.create_play_area()
-        self._active_player = self.__player_x
+        self._active_player = self._player_x
         self.__lines = self.build_lines()
 
     def __assign_players(self):
-        self.__player_x = self._players[0]
+        self._player_x = self._players[0]
         self._player_o = self._players[1]
 
     def begin(self):
@@ -62,7 +62,7 @@ class TicTacToe(BaseGame):
         if self.x_is_active():
             self._active_player = self._player_o
         else:
-            self._active_player = self.__player_x
+            self._active_player = self._player_x
 
     def player_turn(self):
         choice = self._active_player.make_choice(self.options(), game=self)
@@ -88,7 +88,7 @@ class TicTacToe(BaseGame):
             self.place_marker(choice, self.O_CELL)
 
     def x_is_active(self):
-        return self._active_player == self.__player_x
+        return self._active_player == self._player_x
 
     def o_is_active(self):
         return self._active_player == self._player_o
@@ -120,7 +120,7 @@ class TicTacToe(BaseGame):
     def check_victory(self):
         for line in self.__lines:
             if self.x_victory(line):
-                self.__winner = self.__player_x
+                self.__winner = self._player_x
                 break
             elif self.o_victory(line):
                 self.__winner = self._player_o
@@ -182,7 +182,7 @@ class TicTacToe(BaseGame):
 
     def end_game(self):
         if self.__winner is not None:
-            if self.__winner == self.__player_x:
+            if self.__winner == self._player_x:
                 self.end_state = 'player X wins'
             else:
                 self.end_state = 'player O wins'
@@ -193,7 +193,7 @@ class TicTacToe(BaseGame):
         copy = TicTacToe()
         copy.__player_count = self.__player_count
         copy._active_player = self._active_player
-        copy.__player_x = self.__player_x
+        copy._player_x = self._player_x
         copy._player_o = self._player_o
         copy.__winner = self.__winner
         copy._draw = self._draw

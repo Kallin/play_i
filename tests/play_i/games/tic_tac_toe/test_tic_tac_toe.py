@@ -13,48 +13,53 @@ class TestTicTacToe(unittest.TestCase):
         self.t.add_player(RandomPlayer())
         self.t.setup()
 
-    def testAdd(self):  # test method names begin with 'test'
-        self.assertEqual((1 + 2), 3)
-        self.assertEqual(0 + 1, 1)
-
-    def testMultiply(self):
-        self.assertEqual((0 * 10), 0)
-        self.assertEqual((5 * 8), 40)
-
     def test_horizontal_line(self):
-        self.active_player = self.t._player_o
-        #
-        # O-X
-        # XOO
-        # -XX
-        self.t._play_area[0][0] = 'O'
+        self.t._play_area[0][0] = 'X'
+        self.t._play_area[0][1] = 'X'
         self.t._play_area[0][2] = 'X'
 
-        self.t._play_area[1][0] = 'X'
-        self.t._play_area[1][1] = 'O'
-        self.t._play_area[1][2] = 'O'
-
-        self.t._play_area[2][0] = 'X'
-        self.t._play_area[2][1] = 'X'
-        self.t._play_area[2][2] = 'X'
-
-        self.t.check_victory()
+        self.t.check_game_over()
         self.assertTrue(self.t.game_over())
+        self.t.end_game()
+        self.assertTrue(self.t.end_state == 'player X wins')
 
     def test_vertical_line(self):
-        pass
+        self.t._play_area[0][0] = 'X'
+        self.t._play_area[1][0] = 'X'
+        self.t._play_area[2][0] = 'X'
 
-    def test_diagonals(self):
-        pass
+        self.t.check_game_over()
+        self.assertTrue(self.t.game_over())
+        self.t.end_game()
+        self.assertTrue(self.t.end_state == 'player X wins')
+
+    def test_diagonal(self):
+        self.t._play_area[0][0] = 'X'
+        self.t._play_area[1][1] = 'X'
+        self.t._play_area[2][2] = 'X'
+
+        self.t.check_game_over()
+        self.assertTrue(self.t.game_over())
+        self.t.end_game()
+        self.assertTrue(self.t.end_state == 'player X wins')
 
     def test_draw(self):
-        pass
+        self.t._play_area[0][0] = 'X'
+        self.t._play_area[0][1] = 'X'
+        self.t._play_area[0][2] = 'O'
 
-    def test_victory(self):
-        pass
+        self.t._play_area[1][0] = 'O'
+        self.t._play_area[1][1] = 'O'
+        self.t._play_area[1][2] = 'X'
+
+        self.t._play_area[2][0] = 'X'
+        self.t._play_area[2][1] = 'O'
+        self.t._play_area[2][2] = 'X'
+
+        self.t.check_game_over()
+        self.assertTrue(self.t._draw)
+        self.t.end_game()
+        self.assertTrue(self.t.end_state == 'draw')
 
     def test_actions(self):
         pass
-
-    def testLine(self):
-        self.t.play()
