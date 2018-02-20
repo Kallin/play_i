@@ -189,7 +189,6 @@ class TicTacToe(BaseGame):
             self.end_state = 'draw'
 
     def copy(self):
-
         copy = TicTacToe()
         copy.__player_count = self.__player_count
         copy._active_player = self._active_player
