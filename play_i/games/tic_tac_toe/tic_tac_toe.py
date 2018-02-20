@@ -1,5 +1,6 @@
 from play_i.games.core.base_game import BaseGame
 from play_i.games.tic_tac_toe.renderer import Renderer
+from play_i.games.tic_tac_toe.headless_renderer import HeadlessRenderer
 
 
 class TicTacToe(BaseGame):
@@ -8,6 +9,13 @@ class TicTacToe(BaseGame):
     O_CELL = 'O'
 
     def __init__(self):
+        self.__renderer = Renderer()
+        self.__player_count = None
+        self._active_player = None
+        self.__player_x = None
+        self.__player_o = None
+        self.__winner = None
+        self._draw = None
         super().__init__()
 
     def set_defaults(self):
@@ -23,18 +31,10 @@ class TicTacToe(BaseGame):
         return 'Tic Tac Toe'
 
     def setup(self):
-        self.__player_count = None
-        self._active_player = None
-        self.__player_x = None
-        self.__player_o = None
-        self.__winner = None
-        self._draw = None
-
         self.__assign_players()
         self.__create_play_area()
         self._active_player = self.__player_x
         self.__lines = self.build_lines()
-        self.__renderer = Renderer()
 
     def __assign_players(self):
         self.__player_x = self._players[0]
@@ -204,3 +204,6 @@ class TicTacToe(BaseGame):
         copy._play_area = [row[:] for row in self._play_area]
 
         return copy
+
+    def headless(self):
+        self.__renderer = HeadlessRenderer()

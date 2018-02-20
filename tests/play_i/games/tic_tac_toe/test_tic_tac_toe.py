@@ -18,6 +18,7 @@ class TestTicTacToe(unittest.TestCase):
     def testLine(self):
         # test
         t = TicTacToe()
+        t.headless()
         t.add_player(RandomPlayer())
         t.add_player(RandomPlayer())
         t.play()
