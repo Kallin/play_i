@@ -13,9 +13,10 @@ class TicTacToe(BaseGame):
         self.__player_count = None
         self._active_player = None
         self.__player_x = None
-        self.__player_o = None
+        self._player_o = None
         self.__winner = None
         self._draw = None
+
         super().__init__()
 
     def set_defaults(self):
@@ -32,13 +33,13 @@ class TicTacToe(BaseGame):
 
     def setup(self):
         self.__assign_players()
-        self.__create_play_area()
+        self.create_play_area()
         self._active_player = self.__player_x
         self.__lines = self.build_lines()
 
     def __assign_players(self):
         self.__player_x = self._players[0]
-        self.__player_o = self._players[1]
+        self._player_o = self._players[1]
 
     def begin(self):
         self.__renderer.render_game_start()
@@ -59,7 +60,7 @@ class TicTacToe(BaseGame):
 
     def swap_players(self):
         if self.x_is_active():
-            self._active_player = self.__player_o
+            self._active_player = self._player_o
         else:
             self._active_player = self.__player_x
 
@@ -67,7 +68,7 @@ class TicTacToe(BaseGame):
         choice = self._active_player.make_choice(self.options(), game=self)
         self.apply_choice(choice)
 
-    def __create_play_area(self):
+    def create_play_area(self):
         # we need to represent play spaces generically.. a layout, or coordinate system.
         self._play_area = [[self.EMPTY_CELL for i in range(3)] for j in range(3)]
 
@@ -90,7 +91,7 @@ class TicTacToe(BaseGame):
         return self._active_player == self.__player_x
 
     def o_is_active(self):
-        return self._active_player == self.__player_o
+        return self._active_player == self._player_o
 
     def place_marker(self, choice, marker):
         self._play_area[choice[0]][choice[1]] = marker
@@ -122,7 +123,7 @@ class TicTacToe(BaseGame):
                 self.__winner = self.__player_x
                 break
             elif self.o_victory(line):
-                self.__winner = self.__player_o
+                self.__winner = self._player_o
                 break
 
     def complete_line(self, line, marker):
@@ -193,7 +194,7 @@ class TicTacToe(BaseGame):
         copy.__player_count = self.__player_count
         copy._active_player = self._active_player
         copy.__player_x = self.__player_x
-        copy.__player_o = self.__player_o
+        copy._player_o = self._player_o
         copy.__winner = self.__winner
         copy._draw = self._draw
         copy._players = self._players
