@@ -62,4 +62,22 @@ class TestTicTacToe(unittest.TestCase):
         self.assertTrue(self.t.end_state == 'draw')
 
     def test_actions(self):
-        pass
+        options = self.t.options()
+        expected_options = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]]
+        self.assert_options_equal(expected_options, options)
+
+        self.t._play_area[0][0] = 'X'
+        self.t._play_area[0][1] = 'O'
+        options = self.t.options()
+        expected_options = [[0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]]
+        self.assert_options_equal(expected_options, options)
+
+    def assert_options_equal(self, expected_options, options):
+        self.assertEqual(len(expected_options), len(options))
+        for option in options:
+            found = False
+            for expected_option in expected_options:
+                if (expected_option[0] == option[0]) and (expected_option[1] == option[1]):
+                    found = True
+
+            self.assertTrue(found)
