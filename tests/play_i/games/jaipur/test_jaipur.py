@@ -1,6 +1,7 @@
 import unittest
 
-from play_i.games.jaipur.jaipur import Jaipur
+from play_i.games.jaipur.jaipur import Jaipur, CamelCard, DiamondCard, LeatherCard, SpiceCard, ClothCard, SilverCard, \
+    GoldCard
 
 
 class TestTicTacToe(unittest.TestCase):
@@ -9,36 +10,35 @@ class TestTicTacToe(unittest.TestCase):
         self.j = Jaipur()
 
     def test_component_counts(self):
-        self.assertEqual(self.j.deck.size, 55)
+        self.assertEqual(self.j.deck.size(), 55)
 
-        self.assertEqual(self.j.deck.camel_count, 11)
-        self.assertEqual(self.j.deck.diamond_count, 6)
-        self.assertEqual(self.j.deck.gold_count, 6)
-        self.assertEqual(self.j.deck.silver_count, 6)
-        self.assertEqual(self.j.deck.cloth_count, 8)
-        self.assertEqual(self.j.deck.spice_count, 8)
-        self.assertEqual(self.j.deck.leather_count, 10)
+        self.assertEqual(self.j.deck.card_count(CamelCard), 11)
+        self.assertEqual(self.j.deck.card_count(DiamondCard), 6)
+        self.assertEqual(self.j.deck.card_count(GoldCard), 6)
+        self.assertEqual(self.j.deck.card_count(SilverCard), 6)
+        self.assertEqual(self.j.deck.card_count(ClothCard), 8)
+        self.assertEqual(self.j.deck.card_count(SpiceCard), 8)
+        self.assertEqual(self.j.deck.card_count(LeatherCard), 10)
 
-        self.assertEqual(self.j.bonus_tokens.size, 18)
+        self.assertEqual(len(self.j.bonus_tokens()), 18)
 
-        self.assertEqual(self.j.goods_tokens.size, 38)
+        self.assertEqual(len(self.j.goods_tokens()), 38)
 
         self.assertTrue(self.j.camel_token)
 
-        self.assertEqual(self.j.diamond_values, [7, 7, 5, 5, 5])
-        self.assertEqual(self.j.gold_values, [6, 6, 5, 5, 5])
-        self.assertEqual(self.j.silver_values, [5, 5, 5, 5, 5])
-        self.assertEqual(self.j.cloth_values, [5, 3, 3, 2, 2, 1, 1])
-        self.assertEqual(self.j.spice_values, [5, 3, 3, 2, 2, 1, 1])
-        self.assertEqual(self.j.leather_values, [4, 3, 2, 1, 1, 1, 1, 1, 1])
-        self.assertEqual(self.j.camel_token.value, 5)
+        self.assertEqual([x.value for x in self.j.diamond_tokens], [7, 7, 5, 5, 5])
+        self.assertEqual([x.value for x in self.j.gold_tokens], [6, 6, 5, 5, 5])
+        self.assertEqual([x.value for x in self.j.silver_tokens], [5, 5, 5, 5, 5])
+        self.assertEqual([x.value for x in self.j.cloth_tokens], [5, 3, 3, 2, 2, 1, 1])
+        self.assertEqual([x.value for x in self.j.spice_tokens], [5, 3, 3, 2, 2, 1, 1])
+        self.assertEqual([x.value for x in self.j.leather_tokens], [4, 3, 2, 1, 1, 1, 1, 1, 1])
 
         self.assertEqual(self.j.camel_token.value, 5)
 
-        self.assertEqual(self.j.five_tokens.size, 5)
-        self.assertEqual(self.j.four_tokens.size, 6)
-        self.assertEqual(self.j.three_tokens.size, 7)
+        self.assertEqual(len(self.j.five_tokens), 5)
+        self.assertEqual(len(self.j.four_tokens), 6)
+        self.assertEqual(len(self.j.three_tokens), 7)
 
-        self.assertEqual(self.j.five_token_values, [10, 10, 9, 8, 8])
-        self.assertEqual(self.j.four_token_values, [6, 6, 5, 5, 4, 4])
-        self.assertEqual(self.j.three_token_values, [3, 3, 2, 2, 2, 1, 1])
+        self.assertEqual([x.value for x in self.j.five_tokens], [10, 10, 9, 8, 8])
+        self.assertEqual([x.value for x in self.j.four_tokens], [6, 6, 5, 5, 4, 4])
+        self.assertEqual([x.value for x in self.j.three_tokens], [3, 3, 2, 2, 2, 1, 1])
