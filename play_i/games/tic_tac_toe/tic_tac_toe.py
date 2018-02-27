@@ -38,8 +38,8 @@ class TicTacToe(BaseGame):
         self.__lines = self.build_lines()
 
     def __assign_players(self):
-        self._player_x = self._players[0]
-        self._player_o = self._players[1]
+        self._player_x = self.players[0]
+        self._player_o = self.players[1]
 
     def begin(self):
         self.__renderer.render_game_start()
@@ -197,7 +197,7 @@ class TicTacToe(BaseGame):
         copy._player_o = self._player_o
         copy.__winner = self.__winner
         copy._draw = self._draw
-        copy._players = self._players
+        copy.players = self.players
         copy.__lines = self.__lines
 
         # can share state of everything except play area

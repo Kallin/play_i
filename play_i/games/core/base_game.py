@@ -1,8 +1,12 @@
+from player.player import Player
+
+
 class BaseGame:
     def __init__(self):
-        self._player_count = 0
+        self.player_count = 0
         self.set_defaults()
-        self._players = []
+        self.players = []
+        self.play_area = {}
 
     def set_defaults(self):
         raise Exception('implement me')
@@ -34,7 +38,15 @@ class BaseGame:
         # choose next player, have them select an option..
         pass
 
+    def add_players(self, player_count):
+        for x in range(player_count):
+            self.player_count += 1
+            self.players.append(Player())
+
     def add_player(self, player):
-        self._player_count += 1
-        player.number = self._player_count
-        self._players.append(player)
+        self.player_count += 1
+        player.number = self.player_count
+        self.players.append(player)
+
+    def player(self, player_num):
+        return self.players[player_num - 1]

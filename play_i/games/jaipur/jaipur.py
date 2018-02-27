@@ -9,7 +9,7 @@ class Jaipur(BaseGame):
         self.create_components()
 
     def create_components(self):
-        self.deck = self.create_deck()
+        self.create_deck()
         self.create_tokens()
 
     def create_deck(self):
@@ -29,7 +29,7 @@ class Jaipur(BaseGame):
         for i in range(10):
             deck.add_card(LeatherCard())
 
-        return deck
+        self.play_area['deck'] = deck
 
     def create_tokens(self):
         self.create_bonus_tokens()
@@ -46,7 +46,33 @@ class Jaipur(BaseGame):
         return 'Jaipur'
 
     def setup(self):
-        pass
+        market = self.play_area['market'] = []
+
+        deck = self.play_area['deck']
+        # put 3 camel cards in 'market'
+        for i in range(3):
+            market.append(deck.find_and_draw_card(lambda x: isinstance(x, CamelCard)))
+
+        # shuffle deck
+        deck.shuffle()
+
+        player_1_area = self.play_area['player_1'] = {}
+        player_2_area = self.play_area['player_2'] = {}
+
+        # deal 5 cards to each player
+        for player_area in [player_1_area, player_2_area]:
+            hand = player_area['hand'] = []
+            camels = player_area['camels'] = []
+            for i in range(5):
+                # todo: get this logic into hand class maybe?
+                card = deck.draw_card()
+                if isinstance(card, CamelCard):
+                    camels.append(card)
+                else:
+                    hand.append(card)
+
+        for i in range(2):
+            market.append(deck.draw_card())
 
     def begin(self):
         pass

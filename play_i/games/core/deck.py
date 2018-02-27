@@ -19,6 +19,15 @@ class Deck:
     def shuffle(self):
         shuffle(self.cards)
 
+    def find_and_draw_card(self, matcher):
+        card = next(card for card in self.cards if matcher(card))
+        self.cards.remove(card)
+        return card
+
+    def draw_card(self):
+        return self.cards.pop()
+
+
 
 class Card:
 
