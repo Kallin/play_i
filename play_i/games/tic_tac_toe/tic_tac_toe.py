@@ -9,6 +9,7 @@ class TicTacToe(BaseGame):
     O_CELL = 'O'
 
     def __init__(self):
+        super().__init__()
         self.__renderer = Renderer()
         self.__player_count = None
         self._active_player = None
@@ -17,7 +18,7 @@ class TicTacToe(BaseGame):
         self.__winner = None
         self._draw = None
 
-        super().__init__()
+
 
     def set_defaults(self):
         self.player_count = 2

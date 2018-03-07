@@ -1,11 +1,50 @@
 from play_i.games.core.base_game import BaseGame
 from play_i.games.core.deck import Deck, Card
+from play_i.games.jaipur.renderer import Renderer
+
+
+class Option():
+    def __init__(self, game):
+        super().__init__()
+        self.game = game
+
+
+class SellOption(Option):
+
+    def __init__(self, game):
+        super().__init__(game)
+        self.label = 'sell'
+
+    def sub_options(self):
+        # should be able to sell any number of similar things
+        #  need to geet active player's hand
+        for card in self.game.active_player.play_area['hand']:
+            print(card)
+
+
+class TakeCamelsOption(Option):
+    def __init__(self, game):
+        super().__init__(game)
+        self.label = 'take camels'
+
+
+class TakeOneOption(Option):
+    def __init__(self, game):
+        super().__init__(game)
+        self.label = 'take one card'
+
+
+class ReplaceOption(Option):
+    def __init__(self, game):
+        super().__init__(game)
+        self.label = 'replace cards'
 
 
 class Jaipur(BaseGame):
 
     def __init__(self):
         super().__init__()
+        self.__renderer = Renderer()
         self.create_components()
 
     def create_components(self):
@@ -45,7 +84,47 @@ class Jaipur(BaseGame):
     def name(self):
         return 'Jaipur'
 
+    def begin(self):
+        self.__renderer.render_game_start()
+        while True:
+            self.__renderer.render_game(self)
+
+            self.player_turn()
+
+            self.check_game_over()
+
+            if self.game_over():
+                break
+
+            self.swap_players()
+
+        self.end_game()
+        self.__renderer.render_game_over(self)
+
+    def player_turn(self):
+        choice = self._active_player.make_choice(self.options(), game=self)
+        self.apply_choice(choice)
+
+    def options(self, player):
+        options = []
+
+        if player != self.active_player:
+            return options
+
+        options.append(SellOption(self))
+        options.append(ReplaceOption(self))
+        options.append(TakeOneOption(self))
+        options.append(TakeCamelsOption(self))
+
+        # options['sell'] = 1
+        # options['replace'] = 1
+        # options['take_1'] = 1
+        # options['take_camels'] = 1
+
+        return options
+
     def setup(self):
+
         market = self.play_area['market'] = []
 
         deck = self.play_area['deck']
@@ -58,6 +137,11 @@ class Jaipur(BaseGame):
 
         player_1_area = self.play_area['player_1'] = {}
         player_2_area = self.play_area['player_2'] = {}
+
+        self.add_players([player_1_area, player_2_area])
+
+        player_1 = self.players[0]
+        self.active_player = player_1
 
         # deal 5 cards to each player
         for player_area in [player_1_area, player_2_area]:

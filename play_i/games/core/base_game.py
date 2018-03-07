@@ -35,18 +35,10 @@ class BaseGame:
         self.setup()
         self.begin()
 
-        # choose next player, have them select an option..
-        pass
-
-    def add_players(self, player_count):
-        for x in range(player_count):
+    def add_players(self, play_areas):
+        for play_area in play_areas:
             self.player_count += 1
-            self.players.append(Player())
-
-    def add_player(self, player):
-        self.player_count += 1
-        player.number = self.player_count
-        self.players.append(player)
+            self.players.append(Player(play_area))
 
     def player(self, player_num):
         return self.players[player_num - 1]
