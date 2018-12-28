@@ -1,1 +1,4 @@
 coverage==4.5.1
+prompt-toolkit==1.0.15
+six==1.11.0
+wcwidth==0.1.7
