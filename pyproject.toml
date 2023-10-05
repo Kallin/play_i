@@ -9,7 +9,14 @@ packages = [{include = "play_i"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 pytest = "*"
+python-statemachine="*"
+pydot="*"
+ruff = "*"
+black = "*"
 
+
+[tool.poetry.group.dev.dependencies]
+setuptools = "^68.2.2"
 
 [build-system]
 requires = ["poetry-core"]
