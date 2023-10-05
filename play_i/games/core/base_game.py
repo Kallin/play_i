@@ -42,5 +42,10 @@ class BaseGame:
             self.player_count += 1
             self.players.append(Player(play_area))
 
+    def add_player(self, player):
+        self.player_count += 1
+        player.number = self.player_count
+        self.players.append(player)
+
     def player(self, player_num):
         return self.players[player_num - 1]
