@@ -104,7 +104,7 @@ class TestTicTacToe(unittest.TestCase):
         sell_option = next(
             option for option in player_1_options if option.label == "sell"
         )
-        children = sell_option.sub_options()
+        sell_option.sub_options()
 
     # def test_cil(self):
 
