@@ -155,9 +155,6 @@ class Jaipur(BaseGame):
         for i in range(2):
             market.append(deck.draw_card())
 
-    def begin(self):
-        pass
-
     def copy(self):
         pass
 

@@ -21,7 +21,8 @@ class TicTacToe(BaseGame):
     def set_defaults(self):
         self.player_count = 2
 
-    # could be part of a generalized setup routine. figure out what parameters a game has and configure it.
+    # could be part of a generalized setup routine.
+    # figure out what parameters a game has and configure it.
     # there will be some common ones like '# of players', but also game specific ones
 
     def supported_player_counts(self):
