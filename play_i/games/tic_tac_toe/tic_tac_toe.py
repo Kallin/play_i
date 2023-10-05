@@ -4,9 +4,9 @@ from play_i.games.tic_tac_toe.headless_renderer import HeadlessRenderer
 
 
 class TicTacToe(BaseGame):
-    EMPTY_CELL = '-'
-    X_CELL = 'X'
-    O_CELL = 'O'
+    EMPTY_CELL = "-"
+    X_CELL = "X"
+    O_CELL = "O"
 
     def __init__(self):
         super().__init__()
@@ -18,8 +18,6 @@ class TicTacToe(BaseGame):
         self.__winner = None
         self._draw = None
 
-
-
     def set_defaults(self):
         self.player_count = 2
 
@@ -30,7 +28,7 @@ class TicTacToe(BaseGame):
         return 2, 2
 
     def name(self):
-        return 'Tic Tac Toe'
+        return "Tic Tac Toe"
 
     def setup(self):
         self.__assign_players()
@@ -184,11 +182,11 @@ class TicTacToe(BaseGame):
     def end_game(self):
         if self.__winner is not None:
             if self.__winner == self._player_x:
-                self.end_state = 'player X wins'
+                self.end_state = "player X wins"
             else:
-                self.end_state = 'player O wins'
+                self.end_state = "player O wins"
         else:
-            self.end_state = 'draw'
+            self.end_state = "draw"
 
     def copy(self):
         copy = TicTacToe()

@@ -3,45 +3,43 @@ from play_i.games.core.deck import Deck, Card
 from play_i.games.jaipur.renderer import Renderer
 
 
-class Option():
+class Option:
     def __init__(self, game):
         super().__init__()
         self.game = game
 
 
 class SellOption(Option):
-
     def __init__(self, game):
         super().__init__(game)
-        self.label = 'sell'
+        self.label = "sell"
 
     def sub_options(self):
         # should be able to sell any number of similar things
         #  need to geet active player's hand
-        for card in self.game.active_player.play_area['hand']:
+        for card in self.game.active_player.play_area["hand"]:
             print(card)
 
 
 class TakeCamelsOption(Option):
     def __init__(self, game):
         super().__init__(game)
-        self.label = 'take camels'
+        self.label = "take camels"
 
 
 class TakeOneOption(Option):
     def __init__(self, game):
         super().__init__(game)
-        self.label = 'take one card'
+        self.label = "take one card"
 
 
 class ReplaceOption(Option):
     def __init__(self, game):
         super().__init__(game)
-        self.label = 'replace cards'
+        self.label = "replace cards"
 
 
 class Jaipur(BaseGame):
-
     def __init__(self):
         super().__init__()
         self.__renderer = Renderer()
@@ -68,7 +66,7 @@ class Jaipur(BaseGame):
         for i in range(10):
             deck.add_card(LeatherCard())
 
-        self.play_area['deck'] = deck
+        self.play_area["deck"] = deck
 
     def create_tokens(self):
         self.create_bonus_tokens()
@@ -82,7 +80,7 @@ class Jaipur(BaseGame):
         return 2, 2
 
     def name(self):
-        return 'Jaipur'
+        return "Jaipur"
 
     def begin(self):
         self.__renderer.render_game_start()
@@ -124,10 +122,9 @@ class Jaipur(BaseGame):
         return options
 
     def setup(self):
+        market = self.play_area["market"] = []
 
-        market = self.play_area['market'] = []
-
-        deck = self.play_area['deck']
+        deck = self.play_area["deck"]
         # put 3 camel cards in 'market'
         for i in range(3):
             market.append(deck.find_and_draw_card(lambda x: isinstance(x, CamelCard)))
@@ -135,8 +132,8 @@ class Jaipur(BaseGame):
         # shuffle deck
         deck.shuffle()
 
-        player_1_area = self.play_area['player_1'] = {}
-        player_2_area = self.play_area['player_2'] = {}
+        player_1_area = self.play_area["player_1"] = {}
+        player_2_area = self.play_area["player_2"] = {}
 
         self.add_players([player_1_area, player_2_area])
 
@@ -145,8 +142,8 @@ class Jaipur(BaseGame):
 
         # deal 5 cards to each player
         for player_area in [player_1_area, player_2_area]:
-            hand = player_area['hand'] = []
-            camels = player_area['camels'] = []
+            hand = player_area["hand"] = []
+            camels = player_area["camels"] = []
             for i in range(5):
                 # todo: get this logic into hand class maybe?
                 card = deck.draw_card()
@@ -206,8 +203,14 @@ class Jaipur(BaseGame):
         pass
 
     def goods_tokens(self):
-        return self.diamond_tokens + self.gold_tokens + self.silver_tokens \
-               + self.cloth_tokens + self.spice_tokens + self.leather_tokens
+        return (
+            self.diamond_tokens
+            + self.gold_tokens
+            + self.silver_tokens
+            + self.cloth_tokens
+            + self.spice_tokens
+            + self.leather_tokens
+        )
 
     def create_goods_tokens(self):
         self.diamond_tokens = self.create_diamond_tokens()
@@ -282,7 +285,6 @@ class Jaipur(BaseGame):
 
 
 class Token:
-
     def __init__(self, value):
         self.value = value
 

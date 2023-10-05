@@ -2,7 +2,6 @@ from random import shuffle
 
 
 class Deck:
-
     def __init__(self):
         super().__init__()
         self.cards = []
@@ -28,8 +27,6 @@ class Deck:
         return self.cards.pop()
 
 
-
 class Card:
-
     def __init__(self):
         super

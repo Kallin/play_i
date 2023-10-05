@@ -9,22 +9,22 @@ class BaseGame:
         self.play_area = {}
 
     def set_defaults(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     def name(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     def setup(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     def supported_player_counts(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     def begin(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     def copy(self):
-        raise Exception('implement me')
+        raise Exception("implement me")
 
     # def play(self):
     #     counts = self.supported_player_counts()

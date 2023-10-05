@@ -1,17 +1,25 @@
 import unittest
 
-from play_i.games.jaipur import Jaipur, CamelCard, DiamondCard, LeatherCard, SpiceCard, ClothCard, SilverCard, \
-    GoldCard
+from play_i.games.jaipur import (
+    Jaipur,
+    CamelCard,
+    DiamondCard,
+    LeatherCard,
+    SpiceCard,
+    ClothCard,
+    SilverCard,
+    GoldCard,
+)
+
 
 class TestTicTacToe(unittest.TestCase):
-
     def setUp(self):
         self.j = Jaipur()
 
     def test_component_counts(self):
         # todo: should probably include all of these components in the play area
 
-        deck = self.j.play_area['deck']
+        deck = self.j.play_area["deck"]
         self.assertEqual(deck.size(), 55)
 
         self.assertEqual(deck.card_count(CamelCard), 11)
@@ -33,7 +41,9 @@ class TestTicTacToe(unittest.TestCase):
         self.assertEqual([x.value for x in self.j.silver_tokens], [5, 5, 5, 5, 5])
         self.assertEqual([x.value for x in self.j.cloth_tokens], [5, 3, 3, 2, 2, 1, 1])
         self.assertEqual([x.value for x in self.j.spice_tokens], [5, 3, 3, 2, 2, 1, 1])
-        self.assertEqual([x.value for x in self.j.leather_tokens], [4, 3, 2, 1, 1, 1, 1, 1, 1])
+        self.assertEqual(
+            [x.value for x in self.j.leather_tokens], [4, 3, 2, 1, 1, 1, 1, 1, 1]
+        )
 
         self.assertEqual(self.j.camel_token.value, 5)
 
@@ -48,13 +58,13 @@ class TestTicTacToe(unittest.TestCase):
     def test_starting_conditions(self):
         self.j.setup()
 
-        for player_key in ['player_1', 'player_2']:
+        for player_key in ["player_1", "player_2"]:
             player = self.j.play_area[player_key]
-            hand = player['hand']
-            camels = player['camels']
+            hand = player["hand"]
+            camels = player["camels"]
             self.assertEqual(len(hand) + len(camels), 5)
 
-        market = self.j.play_area['market']
+        market = self.j.play_area["market"]
         self.assertEqual(len(market), 5)
 
     # todo: should have a fluent cli
@@ -69,11 +79,11 @@ class TestTicTacToe(unittest.TestCase):
         player_1 = jaipur.player(1)
         player_2 = jaipur.player(2)
 
-        market = jaipur.play_area['market'] = []
+        market = jaipur.play_area["market"] = []
 
-        player_area = jaipur.play_area['player_1'] = {}
-        hand = player_area['hand'] = []
-        camels = player_area['camels'] = []
+        player_area = jaipur.play_area["player_1"] = {}
+        hand = player_area["hand"] = []
+        camels = player_area["camels"] = []
 
         hand += [GoldCard, DiamondCard, LeatherCard]
         camels += [CamelCard, CamelCard]
@@ -88,16 +98,19 @@ class TestTicTacToe(unittest.TestCase):
         self.assertEqual(len(player_1_options), 4)
 
         option_keys = [x.label for x in player_1_options]
-        for key in ['sell', 'take camels', 'take one card', 'replace cards']:
+        for key in ["sell", "take camels", "take one card", "replace cards"]:
             self.assertTrue(key in option_keys)
 
-        sell_option = next(option for option in player_1_options if option.label == 'sell')
+        sell_option = next(
+            option for option in player_1_options if option.label == "sell"
+        )
         children = sell_option.sub_options()
 
     # def test_cil(self):
 
+
 #
-'''
+"""
 todo: look at https://github.com/jonathanslenders/python-prompt-toolkit
 todo: look at http://click.pocoo.org/5/
 cli should behave like this at the beginning of the game:
@@ -216,4 +229,4 @@ executed action
 Action required for player 2
 
 
-'''
+"""
